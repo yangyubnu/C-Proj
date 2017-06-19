@@ -1,0 +1,6 @@
+D:\gitProject\C-Proj\quickSort\ConsoleApplication1\ConsoleApplication1\bin\Debug\ConsoleApplication1.exe.config
+D:\gitProject\C-Proj\quickSort\ConsoleApplication1\ConsoleApplication1\bin\Debug\ConsoleApplication1.exe
+D:\gitProject\C-Proj\quickSort\ConsoleApplication1\ConsoleApplication1\bin\Debug\ConsoleApplication1.pdb
+D:\gitProject\C-Proj\quickSort\ConsoleApplication1\ConsoleApplication1\obj\Debug\ConsoleApplication1.csprojResolveAssemblyReference.cache
+D:\gitProject\C-Proj\quickSort\ConsoleApplication1\ConsoleApplication1\obj\Debug\ConsoleApplication1.exe
+D:\gitProject\C-Proj\quickSort\ConsoleApplication1\ConsoleApplication1\obj\Debug\ConsoleApplication1.pdb
