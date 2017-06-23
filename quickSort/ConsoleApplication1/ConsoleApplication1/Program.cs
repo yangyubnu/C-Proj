@@ -19,16 +19,13 @@ namespace SortTest
             //一轮比出一个最
             public int[] BubbleSort(int[] array, SortType t = SortType.Ascending)
             {
-                bool bType = t == SortTest.SortType.Ascending;
-                int count = 0;
+                bool bAscending = t == SortTest.SortType.Ascending;
 
                 for (int j = 0; j < array.Length; j++)
                 {
                     for (int i = 0; i < array.Length - 1; i++)
                     {
-                        count++;
-
-                        if (bType)
+                        if (bAscending)
                         {
                             if (array[i] > array[i + 1])
                             {
@@ -49,139 +46,139 @@ namespace SortTest
                     }
                 }
 
-                print("count{0}", count);
                 return array;
             }
 
             //插入排序
             //每个数插入到正确的位置
+            //从第一个值往前一个个排查，直到把当前值插入到正确的位置
             public int[] InsertSort(int[] array, SortType t = SortType.Ascending)
             {
-                bool bType = t == SortTest.SortType.Ascending;
-                int count = 0;
+                bool bAscending = t == SortTest.SortType.Ascending;
 
                 for (int i = 0; i < array.Length; i++)
                 {
-                    for (int j = i; j > 0; j--)
-                    {
-                        count++;
+                    int insertValue = array[i];
+                    int insertIndex = i - 1;
 
-                        if (bType)
+                    if (bAscending)
+                    {
+                        //升序
+                        //下标大于等于0并且当前值比前面的值小的时，把前面的值往后面诺一个，下标往前进一个，直到不满足上面的情况的时候跳出循环
+                        while (insertIndex >= 0 && insertValue < array[insertIndex])
                         {
-                            if (array[j] < array[j - 1])
-                            {
-                                int num = array[j - 1];
-                                array[j - 1] = array[j];
-                                array[j] = num;
-                            }
-                            else
-                            {
-                                break;
-                            }
+                                array[insertIndex + 1] = array[insertIndex];
+                                insertIndex--;
                         }
-                        else
+
+                        //下标所在位置值已经比当前值小了，所以是在当前下表位的后一位
+                        array[insertIndex + 1] = insertValue;
+                    }
+                    else
+                    {
+                        while (insertIndex >= 0 && insertValue > array[insertIndex])
                         {
-                            if (array[j] > array[j - 1])
-                            {
-                                int num = array[j - 1];
-                                array[j - 1] = array[j];
-                                array[j] = num;
-                            }
-                            else
-                            {
-                                break;
-                            }
+                                array[insertIndex + 1] = array[insertIndex];
+                                insertIndex--;
                         }
+
+                        array[insertIndex + 1] = insertValue;
                     }
                 }
-
-                print("count{0}", count);
+                    
                 return array;
             }
 
             //快速排序
-            public void QuickSort(int[] array)
+            //需要找一个基准值，然后以基准值为分解，把大于小于基准值的数字分开
+            //然后再重复上面步奏（递归），直到排序完成
+            public void QuickSort(int[] array, SortType t = SortType.Ascending)
             {
-                string a = "";
-                for (int i = 0; i < array.Length; i++)
-                    a = a + array[i].ToString() + " ";
+                bool bAscending = t == SortType.Ascending;
 
-                print("array:{0}", a);
-
-                QSort(array, 0, array.Length - 1);
-                print("array", array.ToString());
+                QSort(array, 0, array.Length - 1, bAscending);
+                //print("array", array.ToString());
             }
 
-            void QSort(int[] array, int low, int high) 
+            void QSort(int[] array, int low, int high, bool bAscending) 
             {
                 int pivot = 0;
+
+                //出口
                 if (low < high)
                 {
-                    pivot = Partiton(array, low, high);
+                    pivot = Partiton(array, low, high, bAscending);
 
-                    QSort(array, low, pivot - 1);
-                    QSort(array, pivot + 1, high);
+                    QSort(array, low, pivot - 1, bAscending);
+                    QSort(array, pivot + 1, high, bAscending);
                 }
             }
 
-            int Partiton(int[] array, int low, int high)
+            //获得基准值，并且重新分配数组
+            int Partiton(int[] array, int low, int high, bool bAscending)
             {
                 int leftIndex = low;
                 int rightIndex = high;
                 int pivotKey = array[low];
 
-                while (leftIndex < rightIndex)
+                if (bAscending)
                 {
-                    while (leftIndex < rightIndex && array[rightIndex] >= pivotKey)
-                        rightIndex--;
+                    while (leftIndex < rightIndex)
+                    {
+                        //当左边下标小于右边下标且，右边下标所在值大于基准值的时候，不用换位置，所以下标往前-1，直到找到一个小于基准值的值，停下来
+                        while (leftIndex < rightIndex && array[rightIndex] >= pivotKey)
+                            rightIndex--;
 
-                    Swap(array, leftIndex, rightIndex);
+                        //直接把右边的换到左边
+                        Swap(array, leftIndex, rightIndex);
 
-                    string a = "";
-                    for (int i = 0; i < array.Length; i++)
-                        a = a + array[i].ToString() + " ";
+                        //print("-------------------leftIndex:{0}, pivotKey:{1}", leftIndex, pivotKey);
+                        //PrintArray("array:{0}", a);
 
-                    print("-------------------leftIndex:{0}, pivotKey:{1}", leftIndex, pivotKey);
-                    print("array:{0}", a);
+                        //当左边下标小于右边下标且，左边下标所在值小于基准值的时候，不用换位置，所以下标往后+1，直到找到一个大于基准值的值，停下来
+                        while (leftIndex < rightIndex && array[leftIndex] <= pivotKey)
+                            leftIndex++;
 
-                    while (leftIndex < rightIndex && array[leftIndex] <= pivotKey)
-                        leftIndex++;
+                        //直接把左边的换到右边
+                        Swap(array, leftIndex, rightIndex);
 
-                    Swap(array, leftIndex, rightIndex);
+                        //因为换到左边右边的值都会再过一次当前下标的检查，且如果满足条件会改变下标的值，所以可以保证循环结束，全部的值归位
 
-                    a = "";
-                    for (int i = 0; i < array.Length; i++)
-                        a = a + array[i].ToString() + " ";
-
-                    print("-------------------leftIndex:{0}, pivotKey:{1}", leftIndex, pivotKey);
-                    print("array:{0}", a);
-                    //if (leftIndex < rightIndex)
-                    //    Swap(array, leftIndex, rightIndex);
-                }
-
-                string b = "";
-                for (int i = 0; i < array.Length; i++)
-                    b = b + array[i].ToString() + " ";
-
-                print("================================");
-                print("array:{0}", b);
-
-                return leftIndex;
-                /*
-                int temp = pivotKey;
-                if (temp < array[rightIndex])
-                {
-                    array[low] = array[rightIndex - 1];
-                    array[rightIndex - 1] = temp;
-                    return rightIndex - 1;
+                        //print("-------------------leftIndex:{0}, pivotKey:{1}", leftIndex, pivotKey);
+                        //PrintArray("array:{0}", a);
+                    }
                 }
                 else
                 {
-                    array[low] = array[rightIndex];
-                    array[rightIndex] = temp;
-                    return rightIndex;
-                }*/
+                    while (leftIndex < rightIndex)
+                    {
+                        //当左边下标小于右边下标且，右边下标所在值大于基准值的时候，不用换位置，所以下标往前-1，直到找到一个小于基准值的值，停下来
+                        while (leftIndex < rightIndex && array[rightIndex] <= pivotKey)
+                            rightIndex--;
 
+                        //直接把右边的换到左边
+                        Swap(array, leftIndex, rightIndex);
+
+                        //print("-------------------leftIndex:{0}, pivotKey:{1}", leftIndex, pivotKey);
+                        //PrintArray("array:{0}", a);
+
+                        //当左边下标小于右边下标且，左边下标所在值小于基准值的时候，不用换位置，所以下标往后+1，直到找到一个大于基准值的值，停下来
+                        while (leftIndex < rightIndex && array[leftIndex] >= pivotKey)
+                            leftIndex++;
+
+                        //直接把左边的换到右边
+                        Swap(array, leftIndex, rightIndex);
+
+                        //因为换到左边右边的值都会再过一次当前下标的检查，且如果满足条件会改变下标的值，所以可以保证循环结束，全部的值归位
+
+                        //print("-------------------leftIndex:{0}, pivotKey:{1}", leftIndex, pivotKey);
+                        //PrintArray("array:{0}", a);
+                    }            
+                }
+
+                //sPrintArray(array);
+
+                return leftIndex;
             }
 
             void Swap(int[] array, int a, int b) 
@@ -190,27 +187,30 @@ namespace SortTest
                 array[a] = array[b];
                 array[b] = num;
             }
+
+            void PrintArray(int[] array)
+            {
+                string a = "";
+                for (int i = 0; i < array.Length; i++)
+                    a = a + array[i].ToString() + " ";
+
+                print("array:{0}", a);
+            }
         }
 
         static void Main(string[] args)
         {
             System.Console.WriteLine("hello world!");
-            int[] myArray = new int[] { 45, 36, 18, 53, 72, 30, 48, 93, 15};
-            //myArray = new int[] { 3, 4, 5, 1};
-            //myArray = new int[] { 3, 4, 2, 1};
+            int[] myArray = new int[] { 45, 36, 36, 18, 53, 72, 30, 48, 93, 15};
 
             SortFunc sf = new SortFunc();
-            print("hello!");
-            print("1." + sf.a);
-            sf.a = 10;
-            print("2.{0}", sf.a.ToString());
 
             //排序
-            //int[] ary = sf.BubbleSort(myArray, SortType.Ascending);
-            //int[] ary = sf.InsertSort(myArray, SortType.Descending);
-            sf.QuickSort(myArray);
+            //sf.BubbleSort(myArray, SortType.Ascending);
+            //sf.InsertSort(myArray, SortType.Descending);
+            sf.QuickSort(myArray, SortType.Ascending);
 
-            print("myArray.Length{0}", myArray.Length);
+            //print("myArray.Length{0}", myArray.Length);
 
             for (int i = 0; i < myArray.Length; i++)
             {
