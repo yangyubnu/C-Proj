@@ -152,31 +152,19 @@ namespace SortTest
                 {
                     while (leftIndex < rightIndex)
                     {
-                        //当左边下标小于右边下标且，右边下标所在值大于基准值的时候，不用换位置，所以下标往前-1，直到找到一个小于基准值的值，停下来
                         while (leftIndex < rightIndex && array[rightIndex] <= pivotKey)
                             rightIndex--;
 
-                        //直接把右边的换到左边
                         Swap(array, leftIndex, rightIndex);
 
-                        //print("-------------------leftIndex:{0}, pivotKey:{1}", leftIndex, pivotKey);
-                        //PrintArray("array:{0}", a);
-
-                        //当左边下标小于右边下标且，左边下标所在值小于基准值的时候，不用换位置，所以下标往后+1，直到找到一个大于基准值的值，停下来
                         while (leftIndex < rightIndex && array[leftIndex] >= pivotKey)
                             leftIndex++;
 
-                        //直接把左边的换到右边
                         Swap(array, leftIndex, rightIndex);
-
-                        //因为换到左边右边的值都会再过一次当前下标的检查，且如果满足条件会改变下标的值，所以可以保证循环结束，全部的值归位
-
-                        //print("-------------------leftIndex:{0}, pivotKey:{1}", leftIndex, pivotKey);
-                        //PrintArray("array:{0}", a);
                     }            
                 }
 
-                //sPrintArray(array);
+                //PrintArray(array);
 
                 return leftIndex;
             }
