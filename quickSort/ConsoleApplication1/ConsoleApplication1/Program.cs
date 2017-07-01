@@ -169,6 +169,29 @@ namespace SortTest
                 return leftIndex;
             }
 
+            //简单选择排序
+            //找出最小的与第一个数交换，找出次小的跟第二个数交换
+            public void SimpleSelectSort(int[] array, SortType t = SortType.Ascending)
+            {
+                for (int i = 0; i < array.Length; i++)
+                {
+                    int min = array[i];
+                    int minIndex = i;
+
+                    for (int j = i + 1; j < array.Length; j++)
+                    {
+                        if (min > array[j])
+                        {
+                            min = array[j];
+                            minIndex = j;
+                        }
+                    }
+
+                    if (i != minIndex)
+                        Swap(array, i, minIndex);
+                }
+            }
+
             void Swap(int[] array, int a, int b) 
             {
                 int num = array[a];
@@ -196,7 +219,8 @@ namespace SortTest
             //排序
             //sf.BubbleSort(myArray, SortType.Ascending);
             //sf.InsertSort(myArray, SortType.Descending);
-            sf.QuickSort(myArray, SortType.Ascending);
+            //sf.QuickSort(myArray, SortType.Ascending);
+            sf.SimpleSelectSort(myArray, SortType.Ascending);
 
             //print("myArray.Length{0}", myArray.Length);
 
@@ -205,7 +229,7 @@ namespace SortTest
                 print("{0}", myArray[i]);
             }
             
-            while (true) ;
+            System.Console.ReadLine();
         }
 
         public static void print(string log, params object[] args)
