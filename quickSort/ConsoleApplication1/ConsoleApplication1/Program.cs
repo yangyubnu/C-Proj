@@ -1,4 +1,4 @@
-﻿
+﻿using System;
 
 namespace SortTest
 {
@@ -173,23 +173,49 @@ namespace SortTest
             //找出最小的与第一个数交换，找出次小的跟第二个数交换
             public void SimpleSelectSort(int[] array, SortType t = SortType.Ascending)
             {
-                for (int i = 0; i < array.Length; i++)
+                bool bAscending = t == SortType.Ascending;
+                if (bAscending)
                 {
-                    int min = array[i];
-                    int minIndex = i;
-
-                    for (int j = i + 1; j < array.Length; j++)
+                    for (int i = 0; i < array.Length; i++)
                     {
-                        if (min > array[j])
-                        {
-                            min = array[j];
-                            minIndex = j;
-                        }
-                    }
+                        int min = array[i];
+                        int minIndex = i;
 
-                    if (i != minIndex)
-                        Swap(array, i, minIndex);
+                        for (int j = i + 1; j < array.Length; j++)
+                        {
+                            if (min > array[j])
+                            {
+                                min = array[j];
+                                minIndex = j;
+                            }
+                        }
+
+                        if (i != minIndex)
+                            Swap(array, i, minIndex);
+                    }
                 }
+                else
+                {
+                    for (int i = 0; i < array.Length; i++)
+                    {
+                        int max = array[i];
+                        int maxIndex = i;
+
+                        for (int j = i + 1; j < array.Length; j++)
+                        {
+                            if (max < array[j])
+                            {
+                                max = array[j];
+                                maxIndex = j;
+                            }
+                        }
+
+                        if (i != maxIndex)
+                            Swap(array, i, maxIndex);
+                    }
+                }
+
+
             }
 
             void Swap(int[] array, int a, int b) 
@@ -212,7 +238,18 @@ namespace SortTest
         static void Main(string[] args)
         {
             System.Console.WriteLine("hello world!");
-            int[] myArray = new int[] { 45, 36, 36, 18, 53, 72, 30, 48, 93, 15};
+            Random random = new Random();
+
+            //int[] myArray = new int[] { 45, 36, 36, 18, 53, 72, 30, 48, 93, 15};
+            int[] myArray = new int[10];
+            string strArray = "";
+            for (int i = 0; i < myArray.Length; i++)
+			{
+                myArray[i] = random.Next(1, 100);
+                strArray = strArray + myArray[i] + " ";
+			}
+
+            print("=================:" + strArray);
 
             SortFunc sf = new SortFunc();
 
