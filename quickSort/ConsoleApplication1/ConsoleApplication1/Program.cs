@@ -89,6 +89,55 @@ namespace SortTest
                 return array;
             }
 
+            //希尔排序
+            //选择一个增量（但此增量未必是最优解），然后根据增量来调整数组，使其达到宏观有序，再做插入排序
+            //希尔排序就是分组插入排序
+            public void ShellSort(int[] array, SortType t = SortType.Ascending)
+            {
+                bool bAscending = t == SortTest.SortType.Ascending;
+
+                for (int gap = array.Length/2; gap > 0 ; gap /= 2)//获得步长
+                {
+                    for (int i = 0; i < gap; i++)
+                    {
+                        for (int j = gap; j < array.Length; j++)
+                        {
+                            if (bAscending)
+                            {
+                                if (array[j] < array[j - gap])//插入排序
+                                {
+                                    int num = array[j];
+                                    int k = j - gap;
+                                    while (k >= 0 && array[k] > num)
+                                    {
+                                        array[k + gap] = array[k];
+                                        k = k - gap;
+                                    }
+
+                                    array[k + gap] = num;
+                                }
+                            }
+                            else
+                            {
+                                if (array[j] > array[j - gap])//插入排序
+                                {
+                                    int num = array[j];
+                                    int k = j - gap;
+                                    while (k >= 0 && array[k] < num)
+                                    {
+                                        array[k + gap] = array[k];
+                                        k = k - gap;
+                                    }
+
+                                    array[k + gap] = num;
+                                }
+                            }
+
+                        }
+                    }
+                }
+            }
+
             //快速排序
             //需要找一个基准值，然后以基准值为分解，把大于小于基准值的数字分开
             //然后再重复上面步奏（递归），直到排序完成
@@ -257,7 +306,8 @@ namespace SortTest
             //sf.BubbleSort(myArray, SortType.Ascending);
             //sf.InsertSort(myArray, SortType.Descending);
             //sf.QuickSort(myArray, SortType.Ascending);
-            sf.SimpleSelectSort(myArray, SortType.Ascending);
+            //sf.SimpleSelectSort(myArray, SortType.Ascending);
+            sf.ShellSort(myArray, SortType.Descending);
 
             //print("myArray.Length{0}", myArray.Length);
 
